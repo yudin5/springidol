@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+       default-init-method="turnOnLights"
+       default-destroy-method="turnOffLights">
+
+    <!--Здесь должны находиться объявления компонентов-->
+    <bean id="duke" class="springidol.PoeticJuggler">
+        <!--<constructor-arg value="15"/>-->
+        <constructor-arg value="#{T(java.lang.Math).random()*15}" />
+        <constructor-arg ref="poemMarshak" />
+    </bean>
+
+    <bean id="kenny"
+          class="springidol.Instrumentalist">
+        <property name="song" value="Jingle Bells" />
+        <property name="instrument" ref="saxophone"/>
+            <!--<bean class="springidol.Saxophone" />-->
+        <!--</property>-->
+    </bean>
+
+    <bean id="hank"
+          class="springidol.OneManBand">
+        <property name="instruments">
+            <!--<list>-->
+                <!--<ref bean="piano" />-->
+                <!--<ref bean="saxophone" />-->
+                <!--<ref bean="saxophone" />-->
+            <!--</list>-->
+            <!--<map>-->
+                <!--<entry key="klavesin" value-ref="piano" />-->
+                <!--<entry key="fortepiano" value-ref="piano" />-->
+                <!--<entry key="sax" value-ref="saxophone" />-->
+            <!--</map>-->
+            <props>
+                <prop key="GUITAR">Strum strum strum</prop>
+                <prop key="CYMBAL">Crash crash crash</prop>
+                <prop key="HARMONICA">Hum hum hum</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="carl"
+          class="springidol.Instrumentalist">
+        <property name="song" value="#{kenny.song?.toUpperCase()}" />
+        <property name="instrument" value="#{kenny.instrument}" />
+    </bean>
+
+    <bean id="poemMarshak"
+          class="springidol.PoemMarshak"/>
+
+    <bean id="theStage"
+          class="springidol.Stage"
+          factory-method="getInstance" />
+
+    <bean id="auditorium"
+          class="springidol.Auditorium"/>
+          <!--init-method="turnOnLights"-->
+          <!--destroy-method="turnOffLights" />-->
+
+    <bean id="saxophone"
+          class="springidol.Saxophone" />
+
+    <bean id="piano"
+          class="springidol.Piano" />
+
+</beans>
