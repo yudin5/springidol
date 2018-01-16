@@ -21,6 +21,21 @@
         <!--</property>-->
     </bean>
 
+    <!--Создадим абстрактный родительский класс для саксофонистов-->
+    <bean id="baseSaxophonist"
+          class="springidol.Instrumentalist"
+          abstract="true">
+        <property name="instrument" ref="saxophone" />
+        <property name="song" value="Mama mia" />
+    </bean>
+
+    <!--Создадим наследника от родительского класса-->
+    <bean id="frank" parent="baseSaxophonist" />
+    <!--Создадим наследника от родительского класса и переопределим наследуемое свойство-->
+    <bean id="lora" parent="baseSaxophonist">
+        <property name="song" value="Mary had a little lamb" />
+    </bean>
+
     <bean id="hank"
           class="springidol.OneManBand">
         <property name="instruments">

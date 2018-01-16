@@ -24,14 +24,15 @@ public class Instrumentalist implements Performer {
         this.instrument = instrument;
     }
 
-    public void turnOffLights() {
-        System.out.println("Я устал, я ухожу! " + this.getClass().getSimpleName() + " уходит..");
-    }
+//    public void turnOffLights() {
+//        System.out.println("Я устал, я ухожу! " + this.getClass().getSimpleName() + " уходит..");
+//    }
 
     @Override
     public void perform() {
         System.out.println("Выступает " + this.getClass().getSimpleName());
         System.out.print("Playing " + song + " : ");
         instrument.play();
+        System.out.println();
     }
 }
