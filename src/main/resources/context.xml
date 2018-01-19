@@ -2,24 +2,38 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
        default-init-method="turnOnLights"
        default-destroy-method="turnOffLights">
+       <!--default-autowire="byType">-->
+    <!--<context:annotation-config /-->
+    <!--<context:component-scan-->
+            <!--base-package="springidol">-->
+    <!--</context:component-scan>-->
 
     <!--Здесь должны находиться объявления компонентов-->
     <bean id="duke" class="springidol.PoeticJuggler">
         <!--<constructor-arg value="15"/>-->
-        <constructor-arg value="#{T(java.lang.Math).random()*15}" />
+        <!--<constructor-arg value="#{T(java.lang.Math).random()*15}" />-->
+        <constructor-arg value="15" />
         <constructor-arg ref="poemMarshak" />
     </bean>
 
     <bean id="kenny"
-          class="springidol.Instrumentalist">
+          class="springidol.Instrumentalist"> <!--Инструмент внедряется через @Autowired -->
         <property name="song" value="Jingle Bells" />
         <property name="instrument" ref="saxophone"/>
             <!--<bean class="springidol.Saxophone" />-->
         <!--</property>-->
     </bean>
+
+    <!--Саксофон для автоматического связывания по имени-->
+    <bean id="instrument" class="springidol.Saxophone"
+          primary="false"/>
 
     <!--Создадим абстрактный родительский класс для саксофонистов-->
     <bean id="baseSaxophonist"
@@ -57,11 +71,11 @@
         </property>
     </bean>
 
-    <bean id="carl"
-          class="springidol.Instrumentalist">
-        <property name="song" value="#{kenny.song?.toUpperCase()}" />
-        <property name="instrument" value="#{kenny.instrument}" />
-    </bean>
+    <!--<bean id="carl"-->
+          <!--class="springidol.Instrumentalist">-->
+        <!--<property name="song" value="#{kenny.song?.toUpperCase()}" />-->
+        <!--<property name="instrument" value="#{kenny.instrument}" />-->
+    <!--</bean>-->
 
     <bean id="poemMarshak"
           class="springidol.PoemMarshak"/>
@@ -75,10 +89,59 @@
           <!--init-method="turnOnLights"-->
           <!--destroy-method="turnOffLights" />-->
 
+    <!--Инструменты-->
     <bean id="saxophone"
           class="springidol.Saxophone" />
 
     <bean id="piano"
           class="springidol.Piano" />
+
+    <!--<bean class="springidol.Guitar" />-->
+
+    <!--То, что не может Java. Создаем родительский абстрактный компонент-->
+    <bean id="basePerformer" abstract="true">
+        <property name="song" value="Somewhere Over the Rainbow" />
+    </bean>
+    <!--Теперь создаем исполнителей РАЗНЫХ КЛАССОВ-->
+    <bean id="klava" class="springidol.Vocalist"
+          parent="basePerformer" />
+
+    <bean id="stevie"
+          class="springidol.Instrumentalist"
+          parent="basePerformer">
+        <property name="instrument" ref="piano" />
+    </bean>
+
+    <!--Создаем конфигурационного пианиста-->
+    <bean id="pianist"
+          class="springidol.Instrumentalist"
+          abstract="true">
+        <property name="song" value="Chopsticks" />
+        <property name="instrument">
+            <bean class="springidol.Piano" />
+        </property>
+    </bean>
+
+    <bean id="audience"
+          class="springidol.Audience" />
+
+    <aop:config>
+        <aop:aspect ref="audience">
+            <aop:pointcut id="performance" expression="execution(* *.perform(..))"
+            /> <!-- Определение среза множества точек сопряжения -->
+            <aop:before
+                    pointcut-ref="performance"
+            method="takeSeats" />
+            <aop:before
+                    pointcut-ref="performance"
+            method="turnOffCellPhones" />
+            <aop:after-returning
+                    pointcut-ref="performance"
+            method="applaud" />
+            <aop:after-throwing
+                    pointcut-ref="performance"
+            method="demandRefund" />
+        </aop:aspect>
+    </aop:config>
 
 </beans>

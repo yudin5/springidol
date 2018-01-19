@@ -42,7 +42,6 @@ public class OneManBand implements Performer {
         this.instruments = instruments;
     }
 
-    @Override
     public void perform() {
         System.out.println("Выступает " + this.getClass().getSimpleName());
         for (Object key : instruments.keySet()) {

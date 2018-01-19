@@ -2,7 +2,7 @@ package springidol;
 
 public class Juggler implements Performer {
 
-    private int beanBags;
+    private int beanBags = 3;
 
     public Juggler() {
     }

@@ -23,8 +23,55 @@
             <version>5.0.2.RELEASE</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/javax/javaee-api -->
+      <!--  <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>8.0</version>
+            <scope>provided</scope>
+        </dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>javax.inject</groupId>-->
+            <!--<artifactId>javax.inject</artifactId>-->
+            <!--<version>1</version>-->
+        <!--</dependency>-->
+
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-aspects -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <version>3.2.0.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.maven.shared</groupId>
+            <artifactId>maven-dependency-analyzer</artifactId>
+            <version>1.8</version>
+        </dependency>
 
     </dependencies>
 
+    <!--<build>-->
+        <!--<plugins>-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-dependency-plugin</artifactId>-->
+                <!--<version>3.0.2</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                    <!--<id>build-classpath</id>-->
+                    <!--<phase>generate-sources</phase>-->
+                    <!--<goals>-->
+                        <!--<goal>build-classpath</goal>-->
+                    <!--</goals>-->
+                    <!--<configuration>-->
+                        <!--&lt;!&ndash; configure the plugin here &ndash;&gt;-->
+                    <!--</configuration>-->
+                <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+        <!--</plugins>-->
+    <!--</build>-->
 
 </project>
