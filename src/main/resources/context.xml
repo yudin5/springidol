@@ -14,26 +14,43 @@
     <!--<context:component-scan-->
             <!--base-package="springidol">-->
     <!--</context:component-scan>-->
+    <!--<aop:aspectj-autoproxy />-->
+
+    <!--Инструменты-->
+    <!--Саксофон для автоматического связывания (по имени и не только) -->
+    <bean id="saxophone"
+          class="springidol.Saxophone"
+          primary="true" />
+
+    <bean id="piano"
+          class="springidol.Piano"
+          autowire-candidate="false" />
 
     <!--Здесь должны находиться объявления компонентов-->
     <bean id="duke" class="springidol.PoeticJuggler">
         <!--<constructor-arg value="15"/>-->
         <!--<constructor-arg value="#{T(java.lang.Math).random()*15}" />-->
-        <constructor-arg value="15" />
+        <constructor-arg value="#{T(java.lang.Math).random()*15 + 1}" />
         <constructor-arg ref="poemMarshak" />
     </bean>
 
     <bean id="kenny"
-          class="springidol.Instrumentalist"> <!--Инструмент внедряется через @Autowired -->
+          class="springidol.Instrumentalist"
+    autowire="byType"> <!--Инструмент внедряется через @Autowired -->
         <property name="song" value="Jingle Bells" />
-        <property name="instrument" ref="saxophone"/>
+        <!--<property name="song" value="Jingle Bells" />-->
+        <!--<property name="instrument" ref="saxophone"/>-->
             <!--<bean class="springidol.Saxophone" />-->
         <!--</property>-->
     </bean>
 
-    <!--Саксофон для автоматического связывания по имени-->
-    <bean id="instrument" class="springidol.Saxophone"
-          primary="false"/>
+    <bean id="carl"
+          class="springidol.Instrumentalist">
+        <property name="song" value="#{kenny.song}" />
+        <!--<property name="song" value="Some song" />-->
+        <property name="instrument" ref="piano" />
+        <!--<property name="instrument" value="#{kenny.instrument}" />-->
+    </bean>
 
     <!--Создадим абстрактный родительский класс для саксофонистов-->
     <bean id="baseSaxophonist"
@@ -71,12 +88,6 @@
         </property>
     </bean>
 
-    <!--<bean id="carl"-->
-          <!--class="springidol.Instrumentalist">-->
-        <!--<property name="song" value="#{kenny.song?.toUpperCase()}" />-->
-        <!--<property name="instrument" value="#{kenny.instrument}" />-->
-    <!--</bean>-->
-
     <bean id="poemMarshak"
           class="springidol.PoemMarshak"/>
 
@@ -88,13 +99,6 @@
           class="springidol.Auditorium"/>
           <!--init-method="turnOnLights"-->
           <!--destroy-method="turnOffLights" />-->
-
-    <!--Инструменты-->
-    <bean id="saxophone"
-          class="springidol.Saxophone" />
-
-    <bean id="piano"
-          class="springidol.Piano" />
 
     <!--<bean class="springidol.Guitar" />-->
 
@@ -113,21 +117,31 @@
     </bean>
 
     <!--Создаем конфигурационного пианиста-->
-    <bean id="pianist"
-          class="springidol.Instrumentalist"
-          abstract="true">
-        <property name="song" value="Chopsticks" />
-        <property name="instrument">
-            <bean class="springidol.Piano" />
-        </property>
-    </bean>
+    <!--<bean id="pianist"-->
+          <!--class="springidol.Instrumentalist"-->
+          <!--abstract="true">-->
+        <!--<property name="song" value="Chopsticks" />-->
+        <!--<property name="instrument">-->
+            <!--<bean class="springidol.Piano" />-->
+        <!--</property>-->
+    <!--</bean>-->
 
     <bean id="audience"
           class="springidol.Audience" />
 
-    <aop:config>
+    <bean id="magician"
+          class="springidol.Magician" />
+
+    <bean id="volunteer"
+          class="springidol.Volunteer" />
+
+    <!--<bean id="contestantDelegate"-->
+          <!--class="springidol.GraciousContestant" />-->
+
+    <aop:config proxy-target-class="true">
+
         <aop:aspect ref="audience">
-            <aop:pointcut id="performance" expression="execution(* *.perform(..))"
+            <aop:pointcut id="performance" expression="execution(* springidol.OneManBand.perform(..))"
             /> <!-- Определение среза множества точек сопряжения -->
             <aop:before
                     pointcut-ref="performance"
@@ -142,6 +156,34 @@
                     pointcut-ref="performance"
             method="demandRefund" />
         </aop:aspect>
+            <!-- Вызываемый и до и после с замером времени (для класса PoeticJuggler-->
+        <aop:aspect ref="audience">
+            <aop:pointcut id="performance2" expression="execution(* springidol.PoeticJuggler.perform(..))"
+            />
+            <aop:around
+                    pointcut-ref="performance2"
+                    method="watchPerformance" />
+        </aop:aspect>
+            <!-- Передача параметров для целевого метода -->
+        <aop:aspect ref="magician">
+            <aop:pointcut id="thinking"
+                          expression="execution(*
+                           springidol.Thinker.thinkOfSomething(String))
+                          and args(thoughts)" />
+            <aop:before
+                pointcut-ref="thinking"
+                method="interceptThoughts"
+                arg-names="thoughts" />
+        </aop:aspect>
+            <!-- Внедрение новых возможностей существующим классам -->
+        <aop:aspect>
+            <aop:declare-parents types-matching="springidol.Performer+"
+                                 implement-interface="springidol.Contestant"
+                                 default-impl="springidol.GraciousContestant"
+                                 />
+                                 <!--delegate-ref="contestantDelegate"-->
+        </aop:aspect>
+
     </aop:config>
 
 </beans>

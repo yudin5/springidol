@@ -5,11 +5,6 @@ import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import springidol.qualifiers.StringedInstrument;
-import springidol.qualifiers.Strummed;
-
-//import javax.inject.Inject;
-//import javax.inject.Named;
 
 //@Configurable("pianist")
 //@Component("eddie")
@@ -28,8 +23,6 @@ public class Instrumentalist implements Performer {
     }
 
 //    @Autowired
-//    @StringedInstrument
-//    @Strummed
 //    @Autowired(required = false)
 //    @Named(value = "instrument")
     private Instrument instrument;
@@ -38,15 +31,11 @@ public class Instrumentalist implements Performer {
         return instrument;
     }
 
-//    @Autowired
+    @Autowired
 //    @Qualifier("stringed")
     public void setInstrument(Instrument instrument) { // Внедрение инструмента
         this.instrument = instrument;
     }
-
-//    public void turnOffLights() {
-//        System.out.println("Я устал, я ухожу! " + this.getClass().getSimpleName() + " уходит..");
-//    }
 
     public void perform() {
         System.out.println("Выступает " + this.getClass().getSimpleName());

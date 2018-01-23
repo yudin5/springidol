@@ -18,6 +18,6 @@ public class PoeticJuggler extends Juggler {
         super.perform();
         System.out.println("While reciting...");
         poem.recite();
-        System.out.println();
+//        System.out.println();
     }
 }

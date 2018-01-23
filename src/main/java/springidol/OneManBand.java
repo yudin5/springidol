@@ -49,6 +49,6 @@ public class OneManBand implements Performer {
             String line = instruments.getProperty((String) key);
             System.out.println(line);
         }
-        System.out.println();
+//        System.out.println();
     }
 }
