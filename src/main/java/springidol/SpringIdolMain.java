@@ -16,19 +16,27 @@ public class SpringIdolMain {
 
 //        ApplicationContext context = new ClassPathXmlApplicationContext("context.xml");
 
-//        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("context.xml");
-//
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("context.xml");
+
 //        Performer performer = (Performer) context.getBean("duke");
 //        performer.perform();
 //
 //        ((Contestant) performer).receiveAward();
-
+//
 //        Contestant test = (Contestant) performer;
 //        test.receiveAward();
-//
+////
 //        System.out.println("Выступает kenny");
 //        Performer performer2 = (Performer) context.getBean("kenny");
 //        performer2.perform();
+
+        // Работаем с БД
+//        DatabaseImpl.requestDb();
+        Student student = new Student();
+        student.setName("Mikoyan");
+        StudentDao studentDao = (StudentDao) context.getBean("studentDao");
+        studentDao.saveStudent(student);
+
 //
 //        Performer performer3 = (Performer) context.getBean("hank");
 //        performer3.perform();
@@ -57,21 +65,26 @@ public class SpringIdolMain {
         /**
          * Это для контекста в Java-конфигурации
          */
-        AnnotationConfigApplicationContext context =
-                new AnnotationConfigApplicationContext(SpringIdolConfig.class);
-
-        Performer performer = (Performer) context.getBean("duke15");
-        performer.perform();
-
-        System.out.println();
-
-        Performer performer2 = (Performer) context.getBean("poeticDuke");
-        performer2.perform();
-
-        System.out.println();
-
-        Performer performer3 = (Performer) context.getBean("kenny");
-        performer3.perform();
+//        AnnotationConfigApplicationContext context =
+//                new AnnotationConfigApplicationContext(SpringIdolConfig.class);
+//
+//        Performer performer = (Performer) context.getBean("duke15");
+//        performer.perform();
+//
+//        System.out.println();
+//
+//        Performer performer2 = (Performer) context.getBean("poeticDuke");
+//        performer2.perform();
+//
+//        System.out.println();
+//
+//        Performer performer3 = (Performer) context.getBean("kenny");
+//        performer3.perform();
+//
+//        Thinker volunteer = (Thinker) context.getBean("volunteer");
+//        volunteer.thinkOfSomething("YOU ARE NOT PREPARED");
+//
+//        ((Contestant) performer).receiveAward();
     }
-}
 
+}

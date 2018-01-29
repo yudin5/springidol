@@ -138,6 +138,25 @@
     <!--<bean id="contestantDelegate"-->
           <!--class="springidol.GraciousContestant" />-->
 
+    <!--*** JDBC ***-->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/foodb" />
+        <property name="username" value="root" />
+        <property name="password" value="root" />
+    </bean>
+
+    <bean id="studentDao" class="springidol.StudentJdbcDao">
+        <property name="jdbcTemplate" ref="jdbcTemplate" />
+    </bean>
+
+    <!--***    ***-->
+
     <aop:config proxy-target-class="true">
 
         <aop:aspect ref="audience">
@@ -185,5 +204,24 @@
         </aop:aspect>
 
     </aop:config>
+
+    <!-- Попытка внедрения аспекта JudgeAspect через AspectJ
+    Для этого в настройках необходимо поменять используемый компилятор на AspectJ
+    и прописать путь до архива aspectjtools-1.8.13.jar -->
+    <!--<bean id="criticismEngineImpl"-->
+          <!--class="springidol.CriticismEngineImpl">-->
+        <!--<property name="criticismPool">-->
+            <!--<list>-->
+                <!--<value>I’m not being rude, but that was appalling.</value>-->
+                <!--<value>You may be the least talented-->
+                    <!--person in this show.</value>-->
+                <!--<value>Do everyone a favor and keep your day job.</value>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <!--<bean class="springidol.JudgeAspect" factory-method="aspectOf">-->
+    <!--<property name="criticismEngine" ref="criticismEngineImpl" />-->
+    <!--</bean>-->
 
 </beans>

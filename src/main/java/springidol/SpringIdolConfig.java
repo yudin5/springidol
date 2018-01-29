@@ -45,4 +45,35 @@ public class SpringIdolConfig {
     public Audience audience() {
         return new Audience();
     }
+
+    @Bean
+    public Thinker volunteer() {
+        return new Volunteer();
+    }
+
+    @Bean
+    public Magician magician() {
+        return new Magician();
+    }
+
+    @Bean
+    public ContestantIntroducer contestantIntroducer() {
+        return new ContestantIntroducer();
+    }
+
+    @Bean
+    public CriticismEngineImpl criticismEngineImpl() {
+        CriticismEngineImpl criticismEngineImpl = new CriticismEngineImpl();
+        criticismEngineImpl.setCriticismPool(new String[] {
+                "I’m not being rude, but that was appalling.",
+                "You may be the least talented person in this show.",
+                "Do everyone a favor and keep your day job."});
+        return  criticismEngineImpl;
+    }
+
+//    @Bean
+//    public JudgeAspect judgeAspect() { // Как получить аспект из AspectJ?
+//        return JudgeAspect.aspectOf();
+//    }
+
 }

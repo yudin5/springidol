@@ -36,13 +36,13 @@ public class Audience {
         try {
             System.out.println("The audience is taking their seats.");
             System.out.println("The audience is turning off their cellphones");
-            long start = System.currentTimeMillis(); // Перед выступлением
+            long start = System.nanoTime(); // Перед выступлением
 
             joinPoint.proceed(); // Вызов целевого метода
 
-            long end = System.currentTimeMillis(); // После выступления
+            long end = System.nanoTime(); // После выступления
             System.out.println("CLAP CLAP CLAP CLAP CLAP");
-            System.out.println("The performance took " + (end - start) + " ms.");
+            System.out.println("The performance took " + (end - start) + " ns.");
             System.out.println();
         } catch (Throwable throwable) {
             System.out.println("Boo! We want our money back!");
