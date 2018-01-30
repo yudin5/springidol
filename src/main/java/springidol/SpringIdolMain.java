@@ -1,11 +1,8 @@
 package springidol;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import sun.misc.Perf;
 
-import javax.naming.AuthenticationException;
+import java.util.List;
 
 public class SpringIdolMain {
     public static void main(String[] args) {
@@ -32,10 +29,19 @@ public class SpringIdolMain {
 
         // Работаем с БД
 //        DatabaseImpl.requestDb();
-        Student student = new Student();
-        student.setName("Mikoyan");
-        StudentDao studentDao = (StudentDao) context.getBean("studentDao");
-        studentDao.saveStudent(student);
+        //Person person = new Person("Vasya", "Pupkin", 16);
+        PersonDao personDao = (PersonDao) context.getBean("personDao");
+       // personDao.createPerson(person);
+
+        System.out.println("------Listing Multiple Records--------" );
+        List<Person> persons = personDao.getAllPersons();
+
+        for (Person record : persons) {
+            System.out.print("ID : " + record.getId());
+            System.out.print(", Name : " + record.getName());
+            System.out.print(", Surname : " + record.getSurname());
+            System.out.println(", Age : " + record.getAge());
+        }
 
 //
 //        Performer performer3 = (Performer) context.getBean("hank");
