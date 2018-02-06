@@ -1,5 +1,7 @@
 package springidol;
 
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.TransientDataAccessResourceException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
@@ -12,14 +14,22 @@ public class PersonJdbcTemplate implements PersonDao {
 
     @Override
     public void createPerson(Person person) {
-        String SQL = "insert into persons (name, surname, age) values (?,?,?)";
-        String name = person.getName();
-        String surname = person.getSurname();
-        int age = person.getAge();
+        try {
+            String SQL = "insert into persons (name, surname, age) values (?,?,?)";
+            String name = person.getName();
+            String surname = person.getSurname();
+            int age = person.getAge();
 
-        jdbcTemplateObject.update(SQL, name, surname, age);
-        System.out.println(
-                "Created Record Name = " + name + "; Surname = " + surname + "; Age = " + age);
+            jdbcTemplateObject.update(SQL, name, surname, age);
+            System.out.println(
+                    "Created Record Name = " + name + "; Surname = " + surname + "; Age = " + age);
+
+            // to simulate the exception.
+            //throw new TransientDataAccessResourceException("simulate Error condition") ;
+        } catch (DataAccessException e) {
+            System.out.println("Error in creating record, rolling back");
+            throw e;
+        }
     }
 
     public void setDataSource(DataSource dataSource) {
@@ -45,13 +55,11 @@ public class PersonJdbcTemplate implements PersonDao {
         String SQL = "delete from persons where id = ?";
         jdbcTemplateObject.update(SQL, id);
         System.out.println("Deleted Record with ID = " + id );
-        return;
     }
 
     public void update(Integer id, Integer age){
         String SQL = "update persons set age = ? where id = ?";
         jdbcTemplateObject.update(SQL, age, id);
         System.out.println("Updated Record with ID = " + id );
-        return;
     }
 }

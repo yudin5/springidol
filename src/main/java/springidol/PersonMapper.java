@@ -8,7 +8,6 @@ public class PersonMapper implements RowMapper<Person> {
 
     @Override
     public Person mapRow(ResultSet rs, int rowNum) throws SQLException {
-        System.out.println(rs.getMetaData());
         Person person = new Person();
         person.setId(rs.getInt("id"));
         person.setName(rs.getString("name"));

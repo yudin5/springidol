@@ -1,6 +1,8 @@
 package springidol;
 
+import org.springframework.beans.BeansException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.dao.DataAccessException;
 
 import java.util.List;
 
@@ -29,9 +31,9 @@ public class SpringIdolMain {
 
         // Работаем с БД
 //        DatabaseImpl.requestDb();
-        //Person person = new Person("Vasya", "Pupkin", 16);
+//        Person person = new Person("Nassim", "Taleb", 65);
         PersonDao personDao = (PersonDao) context.getBean("personDao");
-       // personDao.createPerson(person);
+//        personDao.createPerson(person);
 
         System.out.println("------Listing Multiple Records--------" );
         List<Person> persons = personDao.getAllPersons();
